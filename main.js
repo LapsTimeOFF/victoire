@@ -34,6 +34,9 @@ client.on('message', message => {
 
 	const args = message.content.slice(config.defaultSettings.prefix.length).trim().split(/ +/);
   const command = args.shift().toLowerCase();
+
+  if (!client.commands.has(command)) return;
+
   try {
     client.commands.get(command).execute(message, args);
   } catch (error) {
@@ -74,5 +77,12 @@ function interact(message, client) {
     return
   }
   if(msg === "salut") message.reply('Salut !');
+  if(msg === "sv") message.reply('Oui et toi ?');
+  if(msg === "sa vas") message.reply('Oui et toi ?');
+  if(msg === "ca vas") message.reply('Oui et toi ?');
+  if(msg === "ça vas") message.reply('Oui et toi ?');
+  if(msg === "sa va") message.reply('Oui et toi ?');
+  if(msg === "ca va") message.reply('Oui et toi ?');
+  if(msg === "ça va") message.reply('Oui et toi ?');
   logger.warn('IA Stopped');
 }

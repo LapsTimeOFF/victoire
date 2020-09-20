@@ -9,7 +9,14 @@ const config = {
   },
   ia: {
     capable: [
-      'salut'
+      'salut',
+      'sv',
+      'sa vas',
+      'sa va',
+      'ca vas',
+      'ca va',
+      'ça vas',
+      'ça va'
     ]
   }
   /*permLevels: [
