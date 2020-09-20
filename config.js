@@ -1,12 +1,17 @@
 const config = {
   defaultSettings: {
     prefix: "_",
-    modLogChannel: "logs",
+    modLogChannelID: "757177884862316641",
     modRole: "Modérateur",
     adminRole: "Créateur",
     testRole: "Testeur",
     systemNotice: true
   },
+  ia: {
+    capable: [
+      'salut'
+    ]
+  }
   /*permLevels: [
     { level: 0, name: "User", check: () => true },
     {

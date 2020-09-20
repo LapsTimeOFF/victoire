@@ -4,7 +4,7 @@
   "description": "Victoire est un bot discord.",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js",
+    "start": "clear && node main.js",
     "git": "git add . && git commit -m \"update\" && git push"
   },
   "repository": {
@@ -28,6 +28,7 @@
     "chalk": "^4.1.0",
     "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "node-color-log": "^5.1.0"
   }
 }
