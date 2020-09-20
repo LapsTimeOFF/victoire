@@ -8,4 +8,4 @@ client.on('ready', () => {
   console.log(`${client.user.tag} est en ligne`);
 })
 
-client.login();
+client.login(process.env.TOKEN);
