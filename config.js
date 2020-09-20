@@ -1,3 +1,13 @@
+function makeid(length) {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
 const config = {
   defaultSettings: {
     prefix: "_",
@@ -27,10 +37,17 @@ const config = {
       usage_error: '```css\n[Usage : \'_feedback [<bug, fonction, info>] [<Retour>]\']```',
       info: `\`\`\`Nom: 'feedback'\nDescription: 'Permet de donner un retour !'\nUsage: '_feedback [<bug, fonction, info>] [<Retour>]'\`\`\``,
       feedback_channel_id: '757232726293217451'
+    },
+    qrcode: {
+      name: 'qrcode',
+      description: 'Permet de crée un QrCode',
+      usage: '_qrcode [<lien>]',
+      usage_error: '```css\n[Usage : \'_qrcode [<lien>]\']```',
+      info: `\`\`\`Nom: 'qrcode'\nDescription: 'Permet de crée un QrCode'\nUsage: '_qrcode [<lien>]'\`\`\``,
     }
   },
   victoire: {
-    version: 'Alpha 0.0.1 Build : UB8546'
+    version: `Alpha 0.0.1 Build : ${makeid(5)}`
   }
   /*permLevels: [
     { level: 0, name: "User", check: () => true },

@@ -29,7 +29,8 @@ client.on('ready', () => {
 
 client.on('message', message => {
   if (!message.content.startsWith(config.defaultSettings.prefix) || message.author.bot){
-    interact(message, client);
+    censure(message, client);
+    //interact(message, client);
     return;
   }
 
@@ -86,4 +87,9 @@ function interact(message, client) {
   if(msg === "ca va") message.reply('Oui et toi ?');
   if(msg === "ça va") message.reply('Oui et toi ?');
   logger.warn('IA Stopped');
+}
+
+
+function censure(message, client) {
+  
 }

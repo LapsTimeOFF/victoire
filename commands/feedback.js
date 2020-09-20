@@ -22,7 +22,7 @@ module.exports = {
       return
     }
     if(args[0] === "fonction" || args[0] === "bug") {
-      message.delete
+      message.delete()
       let reportChannel = message.guild.channels.cache.find(x => x.id === config.command.feedback.feedback_channel_id);
       message.channel.send('Votre retour a été déposé auprès de l\'équipe du personnel. Merci d\'avoir aidé le bot à s\'améliorer !').then(m => m.delete({timeout: 15000}));
       const exampleEmbed = new Discord.MessageEmbed()
