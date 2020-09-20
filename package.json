@@ -23,5 +23,9 @@
   "bugs": {
     "url": "https://github.com/LapsTimeOFF/victoire/issues"
   },
-  "homepage": "https://github.com/LapsTimeOFF/victoire#readme"
+  "homepage": "https://github.com/LapsTimeOFF/victoire#readme",
+  "dependencies": {
+    "discord.js": "^12.3.1",
+    "fs": "0.0.1-security"
+  }
 }
