@@ -18,6 +18,19 @@ const config = {
       'ça vas',
       'ça va'
     ]
+  },
+  command: {
+    feedback: {
+      name: 'feedback',
+      description: 'Permet de donner un retour !',
+      usage: '_feedback [<bug, fonction, info>] [<Retour>]',
+      usage_error: '```css\n[Usage : \'_feedback [<bug, fonction, info>] [<Retour>]\']```',
+      info: `\`\`\`Nom: 'feedback'\nDescription: 'Permet de donner un retour !'\nUsage: '_feedback [<bug, fonction, info>] [<Retour>]'\`\`\``,
+      feedback_channel_id: '757232726293217451'
+    }
+  },
+  victoire: {
+    version: 'Alpha 0.0.1 Build : UB8546'
   }
   /*permLevels: [
     { level: 0, name: "User", check: () => true },

@@ -22,8 +22,9 @@ for (const file of commandFiles) {
 client.on('ready', () => {
   logger.info(`${client.user.tag} est en ligne !`);
   logger.info(`Victoire passe en ligne sur ${client.guilds.cache.size} serveurs`)
-  client.user.setActivity(`sur ${client.guilds.cache.size} serveurs !`);
-  setInterval(function(){ client.user.setActivity(`sur ${client.guilds.cache.size} serveurs !`); }, 3000);
+  logger.debug(`Version : ${config.victoire.version}`)
+  client.user.setActivity(`sur ${client.guilds.cache.size} serveurs ! | ${config.victoire.version}`);
+  setInterval(function(){ client.user.setActivity(`sur ${client.guilds.cache.size} serveurs ! | ${config.victoire.version}`); }, 3000);
 })
 
 client.on('message', message => {
