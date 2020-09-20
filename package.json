@@ -1,0 +1,27 @@
+{
+  "name": "victoire",
+  "version": "0.0.0",
+  "description": "Victoire est un bot discord.",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "git": "git add . && git commit -m \"update\" && git push"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LapsTimeOFF/victoire.git"
+  },
+  "keywords": [
+    "bot",
+    "discord",
+    "js",
+    "discordjs",
+    "discord.js"
+  ],
+  "author": "LapsTime / LuckyX21",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LapsTimeOFF/victoire/issues"
+  },
+  "homepage": "https://github.com/LapsTimeOFF/victoire#readme"
+}
