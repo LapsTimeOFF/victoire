@@ -47,7 +47,7 @@ const config = {
     }
   },
   victoire: {
-    version: `Alpha 0.0.1`
+    version: `Alpha 0.0.2 Build : ${makeid(5)}`
   }
   /*permLevels: [
     { level: 0, name: "User", check: () => true },
