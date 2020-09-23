@@ -1,11 +1,13 @@
 const config = require('../config.js');
 const Discord = require('discord.js')
+const logger = require('node-color-log');
 
 module.exports = {
 	name: config.command.feedback.name,
   description: config.command.feedback.description,
   usage: config.command.feedback.usage,
 	execute(message, args) {
+    logger.info(`Commande HELP executé par ${message.author.tag}`)
 		if(!args[0]) {
       message.reply('Veuillez sélectioner un type de retour !')
       message.reply(config.command.feedback.usage_error)

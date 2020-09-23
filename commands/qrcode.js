@@ -1,11 +1,13 @@
 const config = require('../config.js');
 const Discord = require('discord.js')
+const logger = require('node-color-log');
 
 module.exports = {
 	name: config.command.qrcode.name,
   description: config.command.qrcode.description,
   usage: config.command.qrcode.usage,
 	execute(message, args) {
+		logger.info(`Commande HELP executé par ${message.author.tag}`)
 		if(!args[0]) {
       message.reply('Veuillez entrer une URL !')
       message.reply(config.command.qrcode.usage_error)
