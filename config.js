@@ -1,12 +1,3 @@
-function makeid(length) {
-  var result           = '';
-  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for ( var i = 0; i < length; i++ ) {
-     result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
 
 const config = {
   defaultSettings: {
@@ -44,10 +35,16 @@ const config = {
       usage: '_qrcode [<lien>]',
       usage_error: '```css\n[Usage : \'_qrcode [<lien>]\']```',
       info: `\`\`\`Nom: 'qrcode'\nDescription: 'Permet de crée un QrCode'\nUsage: '_qrcode [<lien>]'\`\`\``,
+    },
+    help: {
+      name: 'help',
+      description: 'Permet de recevoir toutes les commandes !',
+      usage: '_help',
+      info: `\`\`\`Nom: 'help'\nDescription: 'Permet de recevoir toutes les commandes !'\nUsage: '_help'\`\`\``,
     }
   },
   victoire: {
-    version: `Alpha 0.0.2 Build : ${makeid(5)}`
+    version: `Alpha 0.0.2`
   }
   /*permLevels: [
     { level: 0, name: "User", check: () => true },
