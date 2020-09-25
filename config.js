@@ -18,6 +18,9 @@ const config = {
       'ca va',
       'ça vas',
       'ça va'
+    ],
+    censure: [
+      'ptn'
     ]
   },
   command: {

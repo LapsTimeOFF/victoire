@@ -1,6 +1,7 @@
 require('dotenv').config();
 const Discord = require('discord.js');
 const fs = require('fs');
+const { checkSetting } = require('node-color-log');
 const logger = require('node-color-log');
 
 const client = new Discord.Client()
@@ -92,4 +93,16 @@ function interact(message, client) {
 
 function censure(message, client) {
   
+  if(message.author.bot) return;
+  for (let item of config.ia.censure) {
+    const arg = message.content.trim().split(/ +/);
+    for (let args of arg) {
+      console.log(args);
+      if(args.includes(item)) {
+        logger.info(`Censure appliqué : ${message.author.tag}, mot censuré interdit : ${args}`)
+        message.delete();
+        message.reply('Surveille ton language !').then(m => m.delete({timeout: 3000}))
+      }
+    }
+  } 
 }

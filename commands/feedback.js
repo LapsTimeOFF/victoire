@@ -7,7 +7,7 @@ module.exports = {
   description: config.command.feedback.description,
   usage: config.command.feedback.usage,
 	execute(message, args) {
-    logger.info(`Commande HELP executé par ${message.author.tag}`)
+    logger.info(`Commande FEEDBACK executé par ${message.author.tag}`)
 		if(!args[0]) {
       message.reply('Veuillez sélectioner un type de retour !')
       message.reply(config.command.feedback.usage_error)
