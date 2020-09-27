@@ -65,7 +65,7 @@ client.on('messageReactionAdd', async(reaction, user) => {
     if(user.bot) return;
 
     if(
-      ['🎟️', '🔒'].includes(reaction.emoji.name)
+      ['🎟️', '🔒', '❎', '✅'].includes(reaction.emoji.name)
     ) {
       switch(reaction.emoji.name) {
 
@@ -88,7 +88,11 @@ client.on('messageReactionAdd', async(reaction, user) => {
             'SEND_MESSAGE': true,
             'ADD_REACTIONS': true
           });
-          channel.updateOverwrite(message.guild.roles.cache.find(role => role.name == 'SUPPORT'), {'VIEW_CHANNEL': true})
+          channel.updateOverwrite(message.guild.roles.cache.find(role => role.name == 'SUPPORT'), {
+            'VIEW_CHANNEL': true,
+            'SEND_MESSAGE': true,
+            'ADD_REACTIONS': true
+          });
 
           var embed1 = new Discord.MessageEmbed()
           .setTitle('Salut,')
@@ -107,15 +111,53 @@ client.on('messageReactionAdd', async(reaction, user) => {
         break;
         
         case '🔒':
+          reaction.users.remove(user)
           if(!message.channel.name.startsWith('ticket')) return;
           if(!member.hasPermission('ADMINISTRATOR')) return;
+
+          let logchannel2 = message.guild.channels.cache.find(c => c.id == config.defaultSettings.modLogChannelID)
           var embedlog2 = new Discord.MessageEmbed()
           .setTitle('Ticket')
           .setThumbnail(user.avatarURL())
-          .setDescription(`Ticket-${username} vien d'être vérouillé ! ${channel}`)
+          .setDescription(`${message.channel.name} vien d'être vérouillé !`)
           .setColor('#ffff00');
-          logchannel.send(embedlog2)
-          console.log(message.channel.permissionOverwrites())
+          logchannel2.send(embedlog2)
+          message.channel.updateOverwrite(message.guild.roles.cache.find(role => role.name == 'SUPPORT'), {
+            'VIEW_CHANNEL': true,
+            'SEND_MESSAGE': true,
+            'ADD_REACTIONS': true
+          });
+          var embed3 = new Discord.MessageEmbed()
+          .setTitle('Est tu sûr ?')
+          .setDescription('De vouloir fermer le salon ?')
+          message.channel.send(embed3).then(async m => await m.react('✅').then(m2 => m.react('❎')))
+        break;
+
+        case '❎':
+          reaction.users.remove(user)
+          message.channel.send(user + ', OK bonne continuation !')
+          let logchannel3 = message.guild.channels.cache.find(c => c.id == config.defaultSettings.modLogChannelID)
+          var embedlog3 = new Discord.MessageEmbed()
+          .setTitle('Ticket')
+          .setThumbnail(user.avatarURL())
+          .setDescription(`${message.channel.name} vien d'être dévérouillé !`)
+          .setColor('#00ff00');
+          logchannel3.send(embedlog3)
+        break;
+
+        case '✅':
+          reaction.users.remove(user)
+          message.channel.send('Le salon va se suprimé dans 10 secondes !')
+          let logchannel4 = message.guild.channels.cache.find(c => c.id == config.defaultSettings.modLogChannelID)
+          var embedlog4 = new Discord.MessageEmbed()
+          .setTitle('Ticket')
+          .setThumbnail(user.avatarURL())
+          .setDescription(`${message.channel.name} vien d'être suprimé !`)
+          .setColor('#ff0000');
+          logchannel4.send(embedlog4)
+          setTimeout(() => {
+            message.channel.delete()
+          }, 10000)
         break;
       }
     }
