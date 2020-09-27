@@ -44,6 +44,16 @@ const config = {
       description: 'Permet de recevoir toutes les commandes !',
       usage: '_help',
       info: `\`\`\`Nom: 'help'\nDescription: 'Permet de recevoir toutes les commandes !'\nUsage: '_help'\`\`\``,
+    },
+    openticket: {
+      name: 'openticket',
+      description: 'Permet d\'envoyé la carte pour crée un ticket.',
+      usage: '_openticket',
+    },
+    purge: {
+      name: 'purge',
+      description: 'Permet de supprimé plus message à la fois.',
+      usage: '_purge [<Nombre de message à supprimé>]',
     }
   },
   victoire: {

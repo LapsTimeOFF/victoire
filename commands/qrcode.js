@@ -6,8 +6,10 @@ module.exports = {
 	name: config.command.qrcode.name,
 	description: config.command.qrcode.description,
 	aliases: ['qr', 'qrcode'],
+	args: true,
+  isOnlyAdmin: false,
   usage: config.command.qrcode.usage,
-	execute(message, args) {
+	execute(client, message, args) {
 		logger.info(`Commande QRCODE executé par ${message.author.tag}`)
 		if(!args[0]) {
       message.reply('Veuillez entrer une URL !')

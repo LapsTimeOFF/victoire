@@ -1,7 +1,6 @@
 require('dotenv').config();
 const Discord = require('discord.js');
 const fs = require('fs');
-const { checkSetting } = require('node-color-log');
 const logger = require('node-color-log');
 
 const client = new Discord.Client()
@@ -16,7 +15,7 @@ for (const file of commandFiles) {
 	// set a new item in the Collection
 	// with the key as the command name and the value as the exported module
   client.commands.set(command.name, command);
-  logger.debug(`Commande ${command.name} chargée !`)
+  logger.debug(`Commande ${command.name} chargee !`)
 }
 
 
@@ -36,17 +35,97 @@ client.on('message', message => {
   }
 
 	const args = message.content.slice(config.defaultSettings.prefix.length).trim().split(/ +/);
-  const command = args.shift().toLowerCase();
-
-  if (!client.commands.has(command)) return;
-
+  const commandName = args.shift().toLowerCase();
+  const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+  if(!command) {
+    message.delete()
+    message.reply('Commande non trouvé !').then(m => m.delete({ timeout: 3000 }))
+    return
+  }
+  if(command.isOnlyAdmin && !message.member.roles.cache.find(role => role.name === config.defaultSettings.adminRole)) {
+    message.reply('Cette commande est réservé aux administrateur !').then(m => m.delete({timeout:3000}))
+    return
+  }
   try {
-    client.commands.get(command).execute(client, message, args);
+    command.execute(client, message, args);
   } catch (error) {
     console.error(error);
     message.reply('Une erreur est survenue.');
   }
 })
+
+
+
+
+
+client.on('messageReactionAdd', async(reaction, user) => {
+    const message = reaction.message;
+    const member = message.guild.members.cache.get(user.id);
+
+    if(user.bot) return;
+
+    if(
+      ['🎟️', '🔒'].includes(reaction.emoji.name)
+    ) {
+      switch(reaction.emoji.name) {
+
+        case '🎟️':
+          if(!reaction.message.channel.id === '759779260029337610') return;
+
+          reaction.users.remove(user);
+
+          let username = user.username;
+          let categoryID = '759793557631926273';
+          let channel = await message.guild.channels.create(`ticket-${username}`, {type: 'text', parent: message.guild.channels.cache.get(categoryID)})
+          .catch(err => {
+            console.log(err);
+            message.guild.channels.cache.get(config.defaultSettings.modLogChannelID).send('Erreur survenue [Event : MessageReactionAdd]')
+          })
+
+          channel.updateOverwrite(message.guild.roles.everyone, {'VIEW_CHANNEL': false});
+          channel.updateOverwrite(member, {
+            'VIEW_CHANNEL': true,
+            'SEND_MESSAGE': true,
+            'ADD_REACTIONS': true
+          });
+          channel.updateOverwrite(message.guild.roles.cache.find(role => role.name == 'SUPPORT'), {'VIEW_CHANNEL': true})
+
+          var embed1 = new Discord.MessageEmbed()
+          .setTitle('Salut,')
+          .setDescription('Explique ton problème ici')
+
+          channel.send(`${member}`)
+          await channel.send(embed1).then(m => m.pin()).then(async msg => msg.react('🔒'))
+
+          let logchannel = message.guild.channels.cache.find(c => c.id == config.defaultSettings.modLogChannelID)
+          var embedlog1 = new Discord.MessageEmbed()
+          .setTitle('Ticket')
+          .setThumbnail(user.avatarURL())
+          .setDescription(`Ticket-${username} vien d'être crée ! ${channel}`)
+          .setColor('#00ff00');
+          logchannel.send(embedlog1)
+        break;
+        
+        case '🔒':
+          if(!message.channel.name.startsWith('ticket')) return;
+          if(!member.hasPermission('ADMINISTRATOR')) return;
+          var embedlog2 = new Discord.MessageEmbed()
+          .setTitle('Ticket')
+          .setThumbnail(user.avatarURL())
+          .setDescription(`Ticket-${username} vien d'être vérouillé ! ${channel}`)
+          .setColor('#ffff00');
+          logchannel.send(embedlog2)
+          console.log(message.channel.permissionOverwrites())
+        break;
+      }
+    }
+})
+
+
+
+
+
+
 
 
 client.login(process.env.TOKEN);
@@ -92,7 +171,7 @@ function interact(message, client) {
 
 
 function censure(message, client) {
-  
+  /* 
   if(message.author.bot) return;
   for (let item of config.ia.censure) {
     const arg = message.content.trim().split(/ +/);
@@ -104,5 +183,5 @@ function censure(message, client) {
         message.reply('Surveille ton language !').then(m => m.delete({timeout: 3000}))
       }
     }
-  } 
+  } */
 }

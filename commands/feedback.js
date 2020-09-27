@@ -6,8 +6,11 @@ module.exports = {
 	name: config.command.feedback.name,
   description: config.command.feedback.description,
   aliases: ['fd', 'feedback'],
+  args: true,
+  isOnlyAdmin: false,
   usage: config.command.feedback.usage,
-	execute(message, args) {
+  usage_error: config.command.feedback.usage_error,
+	execute(client, message, args) {
     logger.info(`Commande FEEDBACK executé par ${message.author.tag}`)
 		if(!args[0]) {
       message.reply('Veuillez sélectioner un type de retour !')

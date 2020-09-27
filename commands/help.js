@@ -6,6 +6,8 @@ module.exports = {
 	name: config.command.help.name,
   description: config.command.help.description,
   aliases: ['help', 'h'],
+  args: false,
+  isOnlyAdmin: false,
   usage: config.command.help.usage,
 	execute(client, message, args) {
     logger.info(`Commande HELP executé par ${message.author.tag}`)
@@ -21,7 +23,7 @@ module.exports = {
       .setTimestamp();
 		for (let item of client.commands) {
       item[1].aliases ? 
-        embed.addField(`${config.defaultSettings.prefix}${item[1].usage}`, `${item[1].description} \n Aliases : ${item[1].aliases}`, false) : embed.addField(`${config.defaultSettings.prefix}${item[1].usage}`, item[1].description, false);
+        embed.addField(`${config.defaultSettings.prefix}${item[1].usage}`, `${item[1].description} \n Aliases : ${item[1].aliases} ${item[1].isOnlyAdmin ? '\nUniquement pour les administrateurs' : ''}`, false) : embed.addField(`${config.defaultSettings.prefix}${item[1].usage}`, item[1].description, false);
     }
     message.channel.send(embed)
   }
