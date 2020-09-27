@@ -4,7 +4,8 @@ const logger = require('node-color-log');
 
 module.exports = {
 	name: config.command.qrcode.name,
-  description: config.command.qrcode.description,
+	description: config.command.qrcode.description,
+	aliases: ['qr', 'qrcode'],
   usage: config.command.qrcode.usage,
 	execute(message, args) {
 		logger.info(`Commande QRCODE executé par ${message.author.tag}`)

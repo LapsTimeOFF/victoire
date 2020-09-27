@@ -5,6 +5,7 @@ const logger = require('node-color-log');
 module.exports = {
 	name: config.command.feedback.name,
   description: config.command.feedback.description,
+  aliases: ['fd', 'feedback'],
   usage: config.command.feedback.usage,
 	execute(message, args) {
     logger.info(`Commande FEEDBACK executé par ${message.author.tag}`)
