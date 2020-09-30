@@ -2,33 +2,85 @@ require('dotenv').config();
 const Discord = require('discord.js');
 const fs = require('fs');
 const logger = require('node-color-log');
+const mysql = require('mysql')
 
+logger.db('Connection : En cours')
+
+let sql;
+const db = new mysql.createConnection({
+  host: 'localhost',
+  password: '',
+  user: 'root',
+  database: 'victoire'
+})
+db.connect(function(err) {
+  if(err) {
+    logger.db('Connection : Fail')
+    throw err;
+  }
+
+  logger.db('Connection : OK')
+})
 const client = new Discord.Client()
 client.commands = new Discord.Collection();
 const config = require('./config.js')
 
 
+
+
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
+if(commandFiles <= 0) {
+  logger.handler('Aucune commande trouvée.')
+}
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 
 	// set a new item in the Collection
 	// with the key as the command name and the value as the exported module
   client.commands.set(command.name, command);
-  logger.debug(`Commande ${command.name} chargee !`)
+  logger.handler(`Commande ${command.name} chargee !`)
 }
 
 
-client.on('ready', () => {
+client.on('ready', async () => {
   logger.info(`${client.user.tag} est en ligne !`);
   logger.info(`Victoire passe en ligne sur ${client.guilds.cache.size} serveurs`)
   logger.debug(`Version : ${config.victoire.version}`)
   client.user.setActivity(`sur ${client.guilds.cache.size} serveurs ! | ${config.victoire.version}`);
+  let myGuild = client.guilds.cache.get('757158453016789102')
+  let SendChannel = myGuild.channels.cache.get('759779260029337610')
+  let OpenTicket = new Discord.MessageEmbed()
+      .setDescription('Réagi  🎟️ pour ouvrir un ticket')
+  await SendChannel.bulkDelete(1)
+  await SendChannel.send(OpenTicket).then(m => m.react('🎟️'))
   setInterval(function(){ client.user.setActivity(`sur ${client.guilds.cache.size} serveurs ! | ${config.victoire.version}`); }, 3000);
 })
 
 client.on('message', message => {
-  if (!message.content.startsWith(config.defaultSettings.prefix) || message.author.bot){
+  if(message.author.bot) return;
+  db.query(`SELECT * FROM user WHERE user = ${message.author.id}`, async (err, req) => {
+    if(err) {
+      logger.db('Error DataBase Communication.')
+      throw err;
+    }
+
+    if(req.length < 1) {
+      message.author.send('Bonjour, vu que vous êtes nouveau dans notre base de donées nous allons vous enregistrer dans la base de données.')
+      //INSERT
+      sql = `INSERT INTO user (user, username, message) VALUES ('${message.author.id}', '${message.author.username}', '${message.content}')`
+      db.query(sql, function(err) {
+        if(err) {
+          logger.db('Error DataBase Communication.')
+          throw err;
+        }
+      })
+    } else {
+      return;
+    }
+    
+  });
+
+  if (!message.content.startsWith(config.defaultSettings.prefix)){
     censure(message, client);
     //interact(message, client);
     return;
