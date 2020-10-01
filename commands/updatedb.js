@@ -29,7 +29,7 @@ module.exports = {
             message.reply('Une érreur de comunication est survenu avec la base de données.')
             return
           }
-          if(!req[0].message <= reason) {
+          if(!req[0].message === reason) {
             logger.db('Error DataBase Communication.')
             message.reply('Une érreur de comunication est survenu avec la base de données.')
             return
