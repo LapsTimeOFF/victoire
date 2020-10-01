@@ -99,7 +99,7 @@ client.on('message', message => {
     return
   }
   try {
-    command.execute(client, message, args);
+    command.execute(client, message, args, db);
   } catch (error) {
     console.error(error);
     message.reply('Une erreur est survenue.');
@@ -187,7 +187,7 @@ client.on('messageReactionAdd', async(reaction, user) => {
 
         case '❎':
           reaction.users.remove(user)
-          message.channel.send(user + ', OK bonne continuation !')
+          reaction.message.delete()
           let logchannel3 = message.guild.channels.cache.find(c => c.id == config.defaultSettings.modLogChannelID)
           var embedlog3 = new Discord.MessageEmbed()
           .setTitle('Ticket')
