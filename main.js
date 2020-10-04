@@ -47,8 +47,29 @@ client.on('ready', async () => {
   logger.info(`Victoire passe en ligne sur ${client.guilds.cache.size} serveurs`)
   logger.debug(`Version : ${config.victoire.version}`)
   client.user.setActivity(`sur ${client.guilds.cache.size} serveurs ! | ${config.victoire.version}`);
-  let myGuild = client.guilds.cache.get('757158453016789102')
-  let SendChannel = myGuild.channels.cache.get('759779260029337610')
+  let myGuild = client.guilds.cache.get('760170490785431573')
+  let SendChannel = myGuild.channels.cache.get('762248904359411742')
+  let SendChannel2 = myGuild.channels.cache.get('760170801625432104')
+  SendChannel2.bulkDelete('10')
+  SendChannel2.send(`@everyone ---------------------RÈGLES DU SERVEUR---------------------
+  1-Partie Chat
+         - Essayer au maximum de parler avec respect avec les autres joueurs.
+         - Insulter est strictement interdit et détecté automatiquement.
+         - Pas de publicité pour un serveur.
+         - Les liens sont strictement interdit.
+  SANCTION POUR LA PARTIE 1 :
+        -Avertissement
+        -3 avertissement : mute pendant 1440 Minutes ( 24 heure )
+        -Si retour après mute et ensuite recommence, Ban de 3 jours
+        -Si après ban de 3 jours vous continuez a ne pas respecter les règles, BAN PERMANNANT (Ban a VIE)
+  Double Compte, message privé (DM), et publicité
+        -Les doubles compte : Ne sont pas autoriser (Sauf staff)
+        -Les publicité sont autorisé UNIQUEMENT si @Kisado31 et @LapsTime vous on autorisé.
+        -Toute les règle énnoncer AVANT compte pour les DM
+        -Sanction : Ban direct
+  Si vous êtes victime d'une personne ne respectant pas les règles, n'hésiter pas a me DM avec preuve
+  Cocher :white_check_mark: quand vous avez lu ses règles`).then(m => m.react('✅'))
+
   let OpenTicket = new Discord.MessageEmbed()
       .setDescription('Réagi  🎟️ pour ouvrir un ticket')
   await SendChannel.bulkDelete(1)
@@ -122,12 +143,12 @@ client.on('messageReactionAdd', async(reaction, user) => {
       switch(reaction.emoji.name) {
 
         case '🎟️':
-          if(!reaction.message.channel.id === '759779260029337610') return;
+          if(!reaction.message.channel.id === '762248904359411742') return;
 
           reaction.users.remove(user);
 
           let username = user.username;
-          let categoryID = '759793557631926273';
+          let categoryID = '762252662062055424';
           let channel = await message.guild.channels.create(`ticket-${username}`, {type: 'text', parent: message.guild.channels.cache.get(categoryID)})
           .catch(err => {
             console.log(err);
@@ -198,6 +219,11 @@ client.on('messageReactionAdd', async(reaction, user) => {
         break;
 
         case '✅':
+          if(reaction.message.channel.id === '760170801625432104') {
+            reaction.users.remove(user);
+            member.roles.add('762013060814602310')
+            return
+          }
           reaction.users.remove(user)
           message.channel.send('Le salon va se suprimé dans 10 secondes !')
           let logchannel4 = message.guild.channels.cache.find(c => c.id == config.defaultSettings.modLogChannelID)
@@ -222,7 +248,7 @@ client.on('messageReactionAdd', async(reaction, user) => {
 
 
 
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN_BOT);
 
 
 

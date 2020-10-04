@@ -2,9 +2,9 @@
 const config = {
   defaultSettings: {
     prefix: "_",
-    modLogChannelID: "757177884862316641",
+    modLogChannelID: "762253214291591178",
     modRole: "Modérateur",
-    adminRole: "Créateur",
+    adminRole: "Administrateurs",
     testRole: "Testeur",
     systemNotice: true
   },

@@ -13,8 +13,8 @@ module.exports = {
     logger.info(`Commande OpenTicket executé par ${message.author.tag}`)
     
     message.delete()
-    let myGuild = client.guilds.cache.get('757158453016789102')
-    let SendChannel = myGuild.channels.cache.get('759779260029337610')
+    let myGuild = client.guilds.cache.get('760170490785431573')
+    let SendChannel = myGuild.channels.cache.get('762248904359411742')
     let OpenTicket = new Discord.MessageEmbed()
       .setDescription('Réagi  🎟️ pour ouvrir un ticket')
       SendChannel.send(OpenTicket).then(m => m.react('🎟️'))
