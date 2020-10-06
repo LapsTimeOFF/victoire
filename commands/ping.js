@@ -14,6 +14,6 @@ module.exports = {
 require("moment-duration-format");
 const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
     logger.info(`Commande ping executé par ${message.author.tag}`)
-    message.channel.send(`Pong :ping_pong: ! Latence du :robot: : \`${Math.sqrt(((new Date() - message.createdTimestamp)/(5*2))**2)}\` Latence de <:discord:761893676317802516> : \`${client.ws.ping}\` Uptime : \`${duration}\``)
+    message.channel.send(`Pong :ping_pong: ! Latence du :robot: : \`${Math.sqrt(((new Date() - message.createdTimestamp)/(5*2))**2)}ms\` Latence de <:discord:762258018372550666> : \`${client.ws.ping}ms\` Uptime : \`${duration}\``)
   }
 }
