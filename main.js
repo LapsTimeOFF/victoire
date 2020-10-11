@@ -4,22 +4,22 @@ const fs = require('fs');
 const logger = require('node-color-log');
 const mysql = require('mysql')
 
-logger.db('Connection : En cours')
+logger.info('Connection : En cours')
 
 let sql;
-const db = new mysql.createConnection({
-  host: 'localhost',
+const info = new mysql.createConnection({
+  host: '192.168.1.71',
   password: '',
   user: 'root',
   database: 'victoire'
 })
-db.connect(function(err) {
+info.connect(function(err) {
   if(err) {
-    logger.db('Connection : Fail')
+    logger.info('Connection : Fail')
     throw err;
   }
 
-  logger.db('Connection : OK')
+  logger.info('Connection : OK')
 })
 const client = new Discord.Client()
 client.commands = new Discord.Collection();
@@ -30,7 +30,7 @@ const config = require('./config.js')
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
 if(commandFiles <= 0) {
-  logger.handler('Aucune commande trouvée.')
+  logger.info('Aucune commande trouvée.')
 }
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
@@ -38,7 +38,7 @@ for (const file of commandFiles) {
 	// set a new item in the Collection
 	// with the key as the command name and the value as the exported module
   client.commands.set(command.name, command);
-  logger.handler(`Commande ${command.name} chargee !`)
+  logger.info(`Commande ${command.name} chargee !`)
 }
 
 
@@ -79,9 +79,9 @@ client.on('ready', async () => {
 
 client.on('message', message => {
   if(message.author.bot) return;
-  db.query(`SELECT * FROM user WHERE user = ${message.author.id}`, async (err, req) => {
+  info.query(`SELECT * FROM user WHERE user = ${message.author.id}`, async (err, req) => {
     if(err) {
-      logger.db('Error DataBase Communication.')
+      logger.info('Error DataBase Communication.')
       throw err;
     }
 
@@ -89,9 +89,9 @@ client.on('message', message => {
       message.author.send('Bonjour, vu que vous êtes nouveau dans notre base de donées nous allons vous enregistrer dans la base de données.')
       //INSERT
       sql = `INSERT INTO user (user, username, message) VALUES ('${message.author.id}', '${message.author.username}', '${message.content}')`
-      db.query(sql, function(err) {
+      info.query(sql, function(err) {
         if(err) {
-          logger.db('Error DataBase Communication.')
+          logger.info('Error DataBase Communication.')
           throw err;
         }
       })
@@ -120,7 +120,7 @@ client.on('message', message => {
     return
   }
   try {
-    command.execute(client, message, args, db);
+    command.execute(client, message, args, info);
   } catch (error) {
     console.error(error);
     message.reply('Une erreur est survenue.');
@@ -241,6 +241,10 @@ client.on('messageReactionAdd', async(reaction, user) => {
     }
 })
 
+client.on('guildBanAdd', async(guild, user) => {
+  let logchannel = guild.channels.cache.find(c => c.id == config.defaultSettings.modLogChannelID)
+  console.log(user);
+})
 
 
 
@@ -291,17 +295,13 @@ function interact(message, client) {
 
 
 function censure(message, client) {
-  /* 
+
   if(message.author.bot) return;
   for (let item of config.ia.censure) {
-    const arg = message.content.trim().split(/ +/);
-    for (let args of arg) {
-      console.log(args);
-      if(args.includes(item)) {
-        logger.info(`Censure appliqué : ${message.author.tag}, mot censuré interdit : ${args}`)
+      if(message.content.includes(item)) {
         message.delete();
-        message.reply('Surveille ton language !').then(m => m.delete({timeout: 3000}))
+        message.reply(`Surveille ton language ! Censure appliqué : ${message.author.tag}, mot censuré interdit : ***~~__${item}__~~***`).then(m => m.delete({timeout: 3000}))
+        message.guild.channels.cache.get(config.defaultSettings.modLogChannelID).send(`Surveille ton language ! Censure appliqué : ${message.author.tag}, mot censuré interdit : ***~~__${item}__~~***`)
       }
     }
-  } */
-}
+  } 

@@ -5,7 +5,7 @@ const logger = require('node-color-log');
 module.exports = {
 	name: config.command.purge.name,
   description: config.command.purge.description,
-  aliases: ['purge', 'p'],
+  aliases: ['purge'],
   args: false,
   isOnlyAdmin: true,
   usage: config.command.purge.usage,
