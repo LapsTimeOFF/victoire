@@ -14,10 +14,10 @@ module.exports = {
     
       const member = message.mentions.members.first() || message.guild.members.cache.get(message.author.id)
       db.query(`SELECT * FROM user WHERE user = ${member.id}`, async (err, req) => {
-        if(err) {
-          logger.db('Error DataBase Communication.')
-          throw err;
-        }
+        // if(err) {
+        //   console.log('Error DataBase Communication.')
+        //   throw err;
+        // }
         let embed = new MessageEmbed()
       .setTitle('UserInfo')
       .setDescription(`Voici des information sur : ${member.user.username}`)
@@ -25,10 +25,10 @@ module.exports = {
       .addField(`Nom d\'utilisateur :`, member.user.username)
       .addField(`Discriminateur : `, member.user.discriminator)
       .addField('ID :', member.id)
-      .addField('Information dans la base de donnée :', '------------------------------------------------')
-      .addField(`Nom d'utilisateur enregisté :`, `${username(req)}`)
-      .addField(`ID enregisté :`, `${user(req)}`)
-      .addField(`Status enregisté :`, `${messageget(req)}`)
+      // .addField('Information dans la base de donnée :', '------------------------------------------------')
+      // .addField(`Nom d'utilisateur enregisté :`, `${username(req)}`)
+      // .addField(`ID enregisté :`, `${user(req)}`)
+      // .addField(`Status enregisté :`, `${messageget(req)}`)
       .setFooter(`Demandé par : ${message.author.nickname ? message.author.nickname : message.author.username}#${message.author.discriminator} ${config.victoire.version} | Alpha 0.0.2`, message.author.avatarURL());
       message.channel.send(embed)
       

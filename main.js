@@ -8,7 +8,7 @@ logger.info('Connection : En cours')
 
 let sql;
 const info = new mysql.createConnection({
-  host: '192.168.1.71',
+  host: 'localhost',
   password: '',
   user: 'root',
   database: 'victoire'
@@ -74,12 +74,15 @@ client.on('ready', async () => {
       .setDescription('Réagi  🎟️ pour ouvrir un ticket')
   await SendChannel.bulkDelete(1)
   await SendChannel.send(OpenTicket).then(m => m.react('🎟️'))
+  await myGuild.channels.cache.get('762253214291591178').send(':gear: @Victoire En ligne !')
+  await myGuild.channels.cache.get('768575802752630824').bulkDelete(10)
+  await myGuild.channels.cache.get('768575802752630824').send('Tu aime ACNH ( Animal Crossing New Horizon ) ? Réagit <:nh:768575583822151680> pour débloquer des channel exclusif !').then(m => m.react('768575583822151680'))
   setInterval(function(){ client.user.setActivity(`sur ${client.guilds.cache.size} serveurs ! | ${config.victoire.version}`); }, 3000);
 })
 
 client.on('message', message => {
   if(message.author.bot) return;
-  info.query(`SELECT * FROM user WHERE user = ${message.author.id}`, async (err, req) => {
+ /* info.query(`SELECT * FROM user WHERE user = ${message.author.id}`, async (err, req) => {
     if(err) {
       logger.info('Error DataBase Communication.')
       throw err;
@@ -99,7 +102,7 @@ client.on('message', message => {
       return;
     }
     
-  });
+  }); */
 
   if (!message.content.startsWith(config.defaultSettings.prefix)){
     censure(message, client);
@@ -138,9 +141,16 @@ client.on('messageReactionAdd', async(reaction, user) => {
     if(user.bot) return;
 
     if(
-      ['🎟️', '🔒', '❎', '✅'].includes(reaction.emoji.name)
+      ['🎟️', '🔒', '❎', '✅', 'acnh'].includes(reaction.emoji.name)
     ) {
       switch(reaction.emoji.name) {
+
+        case 'acnh':
+          if(!reaction.message.channel.id === '768575802752630824') return;
+          reaction.users.remove(user);
+          member.roles.add('768578707853017119');
+          await reaction.message.guild.channels.cache.get('762253214291591178').send(`Je pense que ${member} aime bien <:acnh:768575583822151680>`)
+        break
 
         case '🎟️':
           if(!reaction.message.channel.id === '762248904359411742') return;
@@ -161,7 +171,7 @@ client.on('messageReactionAdd', async(reaction, user) => {
             'SEND_MESSAGE': true,
             'ADD_REACTIONS': true
           });
-          channel.updateOverwrite(message.guild.roles.cache.find(role => role.name == 'SUPPORT'), {
+          channel.updateOverwrite(message.guild.roles.cache.find(role => role.name == 'Support'), {
             'VIEW_CHANNEL': true,
             'SEND_MESSAGE': true,
             'ADD_REACTIONS': true
@@ -169,9 +179,9 @@ client.on('messageReactionAdd', async(reaction, user) => {
 
           var embed1 = new Discord.MessageEmbed()
           .setTitle('Salut,')
-          .setDescription('Explique ton problème ici')
+          .setDescription('Explique ton problème / Question ici')
 
-          channel.send(`${member}`)
+          channel.send(`${member} <@&762252768630800414>`)
           await channel.send(embed1).then(m => m.pin()).then(async msg => msg.react('🔒'))
 
           let logchannel = message.guild.channels.cache.find(c => c.id == config.defaultSettings.modLogChannelID)
@@ -225,6 +235,7 @@ client.on('messageReactionAdd', async(reaction, user) => {
             return
           }
           reaction.users.remove(user)
+          message.delete();
           message.channel.send('Le salon va se suprimé dans 10 secondes !')
           let logchannel4 = message.guild.channels.cache.find(c => c.id == config.defaultSettings.modLogChannelID)
           var embedlog4 = new Discord.MessageEmbed()
